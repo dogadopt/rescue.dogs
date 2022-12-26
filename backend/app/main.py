@@ -3,6 +3,7 @@ from dotenv import dotenv_values
 from azure.cosmos import CosmosClient
 from azure.cosmos import PartitionKey, exceptions
 from .routers import rescue_dog
+from fastapi.middleware.cors import CORSMiddleware
 
 
 config = dotenv_values(".env")
@@ -12,6 +13,18 @@ CONTAINER_NAME = "rescuedogs"
 app = FastAPI()
 
 app.include_router(rescue_dog.router)
+
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup_db_client():

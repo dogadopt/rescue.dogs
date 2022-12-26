@@ -28,6 +28,11 @@ async def get_dogs(request: Request):
     dogs = [dog for dog in request.app.container.read_all_items()]
     return dogs
 
+@router.get("/{id}")
+async def get_dog(request: Request, id: str):
+    dog = request.app.container.read_item(id, partition_key=id)
+    return dog
+
 @router.post("/", response_model=BaseDog)
 async def create_dog(request: Request, dog: BaseDog):
     dog_item = jsonable_encoder(dog)
