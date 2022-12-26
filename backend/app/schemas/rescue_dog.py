@@ -1,18 +1,6 @@
-from enum import Enum
+from .reference.dog_breeds import Breed
 from typing import Union, List, Optional
 from pydantic import BaseModel, Field
-
-class Breed(str, Enum):
-    """This is a breed of dog
-
-    Args:
-        str (_type_): _description_
-        Enum (_type_): _description_
-    """
-    LABRADOR = "Labrador"
-    STAFFORDSHIREBULLTERRIER = "Staffordshire Bull Terrier"
-    GERMANSHEPHERD = "German Shepherd"
-    JACKRUSSEL = "Jack Russel"
 
 class BaseDog(BaseModel):
     """This is a dog
@@ -20,12 +8,14 @@ class BaseDog(BaseModel):
     Args:
         BaseModel (_type_): _description_
     """
+    id : str
     name: str = Field(example="Mika"
                       ,description="This is the name of the dog")
     breed: Union[List[Breed], None] = Field(default=None
                                                 ,example=["Jack Russel"]
                                                 ,description="These are the breeds \
-                                                of the dog")
+                                                of the dog"
+                                                ,max_items=3)
 
 class CreateRescueDog(BaseDog):
     """_summary_

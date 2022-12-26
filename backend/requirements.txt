@@ -1,3 +1,5 @@
 fastapi
 uvicorn
 jsf
+python-dotenv
+azure-cosmos
